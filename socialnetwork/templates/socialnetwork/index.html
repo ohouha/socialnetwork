@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>index</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <h1>chat record</h1>
+    {%for item in items%}
+    <p>{{item.message}}</p>
+    <p>{{item.date}}</p>
+    {% endfor %}
+
+    {% if form.picture.value %}
+    {% for picture in pic %}
+    <img src="/static{{picture.picture.url}}" alt="ownprofile" style="width:200px" />
+    {% endfor %}
+    {% endif %}
+
+
+    <form action="/socialnetwork/showglobal" method="get">
+        <input type="submit" value="global stream">
+    </form>
+
+    <h1>profile info</h1>
+    {% for profile in pro %}
+    <p>firstname</p>
+    <p>{{profile.firstname}}</p>
+    <p>lastname</p>
+    <p>{{profile.lastname}}</p>
+    <p>age</p>
+    <p>{{profile.age}}</p>
+    <p>shor bio</p>
+    <p>{{profile.short_bio}}</p>
+    {% endfor %}
+
+    <a href="/socialnetwork/edit-profile">edit</a>
+    <a href="/socialnetwork/checkfollowing">follwingchat</a>
+    <a href="/socialnetwork/logout">logout</a>
+</body>
+</html>

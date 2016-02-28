@@ -1,0 +1,100 @@
+﻿@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500,700);
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
+
+*{
+    margin:0px;
+    padding:0px;
+}
+
+body {
+  background:url(background.jpg) no-repeat center center fixed;
+  background-size:cover;
+  overflow: auto;
+}
+.containter{
+    /*empty box cant set height, so use absolute to set height, or set html,body 100% first*/
+    /*margin: 0 auto;
+    margin-top:10%;
+    width:60%;
+    height: 40%;*/
+    position:absolute;
+    width:60%;
+    height:40%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius:5px;
+    background:rgba(23, 21, 21,0.6);
+    color: #eee;
+    padding: 5%;
+    box-shadow:5px 0px 10px black;
+
+}
+.sliding{
+    position:absolute;
+    width:25%;
+    height:50%;
+    left: 35%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius:5px;
+    background:white;
+    padding: 10% 5%;
+    box-shadow:5px 0px 10px black;
+}
+
+.leftbox,.rightbox{
+    width: 40%;
+    margin: 5% auto;
+    opacity:1;
+}
+.leftbox{
+    float:left;
+}
+.rightbox{
+    float:right;
+}
+h1{
+    font-family:Montserrat;
+    font-size:35px;
+}
+p{
+    margin-top:20px;
+    font-family:Roboto;
+    font-size:20px;
+}
+.stasticjoin,.stasticlogin,.slidinglog{
+
+    margin-top:20px;
+    font-family:Montserrat;
+    font-size:20px;
+    padding:10px;
+    outline:none;
+    border:2px solid #eee;
+    background:transparent;
+    color:#eee;
+}
+.slidinglog{
+
+    border:0;
+    border-radius:5px;
+    color:white;
+    background:#d73e1c;
+}
+.information h1,.information-signup h1{
+   color:#d71c1c;
+}
+
+.username,.password{
+    margin:10px 0;
+    width:100%;
+    height:30px;
+    outline:none;
+    border:0px;
+    font-family:Roboto;
+    font-size:15px;
+    border-bottom:2px solid #e4dfdf;
+}
+.information-signup{
+}
+

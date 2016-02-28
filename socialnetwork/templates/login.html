@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>login</title>
+	<meta charset="utf-8" />
+    <link rel="stylesheet" href="/static/login.css" />
+</head>
+<body>
+    {% if form.errors %}
+    <p style="color:red">
+        Incorrect user name and password.
+    </p>
+    {% endif %}
+
+    {% for error in errors %}
+    <p style="color: red">
+        {{ error }}
+    </p>
+    {% endfor %}
+
+    <div class="containter">
+        <div class="leftbox">
+            <h1>Don't have an account?</h1>
+            <p>Don't hesitage, you can make friend here, just join us!</p>
+            <form action="{% url 'register' %}" method="get">
+                <input class="stasticjoin" type="submit" value="Register">
+            </form>
+        </div>
+        <div class="rightbox">
+            <h1>Have an account?</h1>
+            <p>Log in now, check what your friend say here, just join us!</p>
+            <button class="stasticlogin">LOGIN</button>
+        </div>
+    </div>
+    <div class="sliding">
+        <div class="information">
+            <h1>LOG IN</h1>
+            <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+                <p>{{ form.username.label_tag }}</p>
+                <label class="username">{{form.username}}</label>
+                <p>{{ form.password.label_tag }}</p>
+                <label class="password">{{form.password}}</label><br />
+                <input class="slidinglog" type="submit" value="LOGIN" />
+                {% csrf_token %}
+            </form>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+</body>
+</html>

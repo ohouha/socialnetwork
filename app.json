@@ -1,0 +1,8 @@
+{
+  "name": "socialnetwork",
+  "description": "hw6",
+  "image": "heroku/python",
+  "repository": "https://github.com/ohouha/socialnetwork.git",
+  "keywords": ["python", "django" ],
+  "addons": [ "heroku-postgresql" ]
+}

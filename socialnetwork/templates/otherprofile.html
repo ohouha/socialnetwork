@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>ownpage</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/static/public.css" />
+    <link rel="stylesheet" href="/static/otherprofile.css" />
+</head>
+<body>
+    <div class="menubar">
+
+        <a href="{% url 'home' %}">
+            <div class="homeicon">
+                <div>Home</div>
+                <div class="homemenu"></div>
+            </div>
+        </a>
+        <a href="{% url 'showglobal' %}">
+            <div class="globalicon">
+                <div>Global</div>
+                <div class="globalmenu"></div>
+            </div>
+        </a>
+
+        <a href="{% url 'checkfollowing' %}">
+            <div class="followicon">
+                <div>Follow</div>
+                <div class="followmenu"></div>
+            </div>
+        </a>
+
+    </div>
+
+    <div class="maincontainer">
+        <div class="top">
+           
+            {%for item in profile%}
+            {% if item.picture %}
+            <img class="profilepic" src="/static{{item.picture.url}}" />
+            {% endif %}
+            {% endfor %}
+            
+
+            {%if name%}
+            <div class="name">{{name}}</div>
+            {% endif %}
+
+            <form action="{% url 'following' %}" method="post">
+                <input type="hidden" name="user" value="{{name}}" />
+                <input type="hidden" name="number" value="{{number}}" />
+                {% if number %}
+                <input type="submit" class="logout" value="{{number}}" />
+                {%else%}
+                <input type="submit" class="logout" value="follow" />
+                {% endif %}
+                {% csrf_token %}
+            </form>
+
+        </div>
+        <div class="content" id="letter">
+            {%for item in items%}
+            <div class="message">
+                <div class="face_content">
+                    {% if item.user.picture %}
+                    <img class="face_picture" src="/static{{item.user.picture.url}}" alt="ownprofile" />
+                    {% endif %}
+                </div>
+                <div class="message_content">
+                    <p class="username">{{item.username}}<span class="date">{{item.date}}</span></p>
+                    <p class="record">{{item.message}}</p>
+                </div>
+            </div>
+
+            {% for comment in item.views.all%}
+            <div class="commentarea">
+                {% if comment.mypro.picture %}
+                <div class="mypro">
+                    <img class="mypro_picture" src="/static{{comment.mypro.picture.url}}" />
+                </div>
+                {% else %}
+                <div class="mypro">
+                    <div class="mypro_picture"></div>
+                </div>
+                {% endif %}
+                <div class="message_content">
+                    <div class="commentusername">{{comment.username}}</div>
+                    <span class="commentdate">{{comment.date}}</span>
+                    <div class="record">{{comment.content}}</div>
+                </div>
+            </div>
+            {% endfor %}
+
+
+
+            <div class="commentarea">
+                {% if item.user.picture %}
+                <div class="mypro">
+                    <img class="mypro_picture" src="/static{{item.user.picture.url}}" />
+                </div>
+                {% else %}
+                <div class="mypro">
+                    <div class="mypro_picture"></div>
+                </div>
+                {% endif %}
+
+                <form action="{% url 'add-contents'%}" method="post" id="commentform">
+                    <input type="button" class="button" name="submitButton" value="send" />
+                    <input class="commentc_content" type="text" name="comment" />
+                    <input type="hidden" name="userid" value="{{item.id}}" />
+                    <input type="hidden" name="username" value="{{user.get_username}}" />
+                    {% csrf_token %}
+                </form>
+
+            </div>
+
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js-cookie-master/js-cookie-master/src/js.cookie.js"></script>
+    <script type="text/javascript" src="/static/public.js"></script>
+
+</body>
+</html>

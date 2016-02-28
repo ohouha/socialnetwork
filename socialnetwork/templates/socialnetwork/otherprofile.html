@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+</head>
+<body>
+    {%if name %}
+    <p>{{name}}</p>
+    {% endif%}
+    {%for item in items%}
+    <p>{{item.message}}</p>
+    <p>{{item.date}}</p>
+    {% endfor %}
+
+    <form action="{% url 'following' %}" method="post">
+        <input type="hidden" name="user" value="{{name}}" />
+        <input type="hidden" name="number" value="{{number}}" />
+       
+        {% if number %}
+        <input type="submit" value="{{number}}" />
+        {%else%}
+        <input type="submit" value="following1" />
+        {% endif %}
+        
+
+        {% csrf_token %}
+    </form>
+
+    {% for profile in profiles %}
+    <p>firstname</p>
+    <p>{{profile.firstname}}</p>
+    <p>lastname</p>
+    <p>{{profile.lastname}}</p>
+    <p>age</p>
+    <p>{{profile.age}}</p>
+    <p>shor bio</p>
+    <p>{{profile.short_bio}}</p>
+    {% endfor %}
+
+    <div><a href="{% url 'showglobal' %}">global chat</a></div>
+    <div><a href="{% url 'home' %}">my profile</a></div>
+</body>
+</html>

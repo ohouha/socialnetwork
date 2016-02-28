@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>globalstream</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/static/public.css" />
+    <link rel="stylesheet" href="/static/globalstream.css" />
+    
+
+</head>
+<body>
+
+    {%for error in errors%}
+    <p style="color:red">{{error}}</p>
+    {% endfor %}
+
+    <div class="menubar">
+
+        <a href="{% url 'home' %}">
+            <div class="homeicon">
+                <div>Home</div>
+                <div class="homemenu"></div>
+            </div>
+        </a>
+
+        <div class="globalicon">
+            <div>Global</div>
+            <div class="globalmenu"></div>
+        </div>
+
+        <a href="{% url 'checkfollowing' %}">
+            <div class="followicon">
+                <div>Follow</div>
+                <div class="followmenu"></div>
+            </div>
+        </a>
+
+    </div>
+
+
+    <div class="maincontainer">
+        <div class="top">
+        </div>
+        {% if user.is_authenticated %}
+        <input name="getusername" type="hidden" value="{{ user.get_username}}" id="getuser" />
+        <div class="name">{{ user.get_username }}</div>
+        {% endif %}
+
+        <form action="{% url 'add-message'%}" method="post">
+
+            {% if proform.picture.value %}
+            {%for item in pro%}
+                <img class="profilepic" src="/static{{item.picture.url}}" />
+                <input id="profileurl" type="hidden" value="{{item.picture.url}}" />
+            {% endfor %}
+            {% else %}
+            {% endif %}
+            <input type="submit" class="talk" value="talk">
+
+            <div class="talkmessage">
+                {% for field in form.visible_fields %}
+                {{field.label_tag}}
+                {{field}}
+                {% for error in field.errors %}
+                <span style="color:red"> {{ error }} </span>
+                {% endfor %}
+                <br>
+                {% endfor %}
+                {% for field in form.hidden_fields %}
+                {{field}}
+                {% endfor %}
+                {% csrf_token %}
+            </div>
+        </form>
+
+        <div class="content" id="letter">
+
+            {%for item in items%}
+                <form action="{% url 'check_other' %}" method="post">
+                    <div class="message">
+                        
+                        {% if item.user.picture %}
+                        <div class="face_content">
+                            <img class="face_picture" src="/static{{item.user.picture.url}}" />
+                        </div>
+                        {% else %}
+                        <div class="face_content">
+
+                            <div class="face_picture"></div>
+                        </div>
+                        {% endif %}
+
+                        <div class="message_content">
+
+                            <input type="hidden" name="user" value="{{item.username}}" />
+                            <input type="hidden" name="currentuser" value="{{user.get_username}}" />
+                            <input class="getid" type="hidden" name="idval" value="{{item.id}}" />
+                            <input class="username" type="submit" value="{{item.username}}" />
+                            <span class="date">{{item.date}}</span>
+                            <p class="record">{{item.message}}</p>
+
+                        </div>
+                    </div>
+                    {% csrf_token %}
+                </form>
+
+           
+                {% for comment in item.views.all%}
+                <div class="commentarea">
+                    {% if comment.mypro.picture %}
+                    <div class="mypro">
+                        <img class="mypro_picture" src="/static{{comment.mypro.picture.url}}" />
+                    </div>
+                    {% else %}
+                    <div class="mypro">
+                        <div class="mypro_picture"></div>
+                    </div>
+                    {% endif %}
+                    <div class="message_content">
+                        <div class="commentusername">{{comment.username}}</div>
+                        <span class="commentdate">{{comment.date}}</span>
+                        <div class="record">{{comment.content}}</div>
+                    </div>
+                </div>
+                    {% endfor %}
+                
+                
+
+                <div class="commentarea">
+                    {% if proform.picture.value %}
+                    {%for item in pro%}
+                    <div class="mypro">
+                        <img class="mypro_picture" src="/static{{item.picture.url}}" />
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <div class="mypro">
+                        <div class="mypro_picture"></div>
+                    </div>
+                    {% endif %}
+
+
+                    <form action="{% url 'add-contents'%}" method="post" id="commentform">
+                        <input type="button" class="button" name="submitButton" value="send" />
+                        <input class="commentc_content" type="text" name="comment" />
+                        <input type="hidden" name="userid" value="{{item.id}}" />
+                        <input type="hidden" name="username" value="{{user.get_username}}" />
+                        {% csrf_token %}
+                    </form>
+
+                </div>
+
+            {% endfor %}
+        </div>  
+
+    </div>
+
+    <div class="square"></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js-cookie-master/js-cookie-master/src/js.cookie.js"></script>
+    <script type="text/javascript" src="/static/globalstream.js"></script>
+    <script type="text/javascript" src="/static/public.js"></script>
+
+</body>
+</html>

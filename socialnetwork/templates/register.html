@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>login</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/static/register.css" />
+</head>
+<body>
+    {% if form.errors %}
+    <p style="color:red">
+        Incorrect user name and password.
+    </p>
+    {% endif %}
+
+    {% for error in errors %}
+    <p style="color: red">
+        {{ error }}
+    </p>
+    {% endfor %}
+
+    <div class="containter">
+        <div class="leftbox">
+        </div>
+        <div class="rightbox">
+            <h1>Have an account?</h1>
+            <p>Log in now, check what your friend say here, just join us!</p>
+            <form action="{% url 'home' %}" method="get">
+                <input class="stasticlogin" type="submit" value="LOGIN">
+            </form>
+        </div>
+    </div>
+    <div class="sliding">
+        <div class="information-signup">
+            <h1>SIGN UP</h1>
+            <form action="{% url 'register' %}" method="post">
+                {% for field in registerform.visible_fields %}
+                <p>{{field.label_tag}}</p>
+                <div class="username">{{field}}</div> <!--class="password"-->
+                {% for error in field.errors %}
+                <span style="color:red"> {{ error }} </span>
+                {% endfor %}
+                <br>
+                {% endfor %}
+                <input class="slidinglog" type="submit" value="SIGN UP" />
+                {% for field in registerform.hidden_fields %}
+                {{field}}
+                {% endfor %}
+                {% csrf_token %}
+            </form>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+</body>
+
+</html>

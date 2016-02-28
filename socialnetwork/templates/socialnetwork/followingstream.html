@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+</head>
+<body>
+    {%for item in followposts%}
+    <p>{{item}}</p>
+    {% endfor %}
+
+    <p>hi</p>
+    {%for mess in messages%}
+    <p>{{mess.username}}</p>
+    <p>{{mess.date}}</p>
+    {% endfor %}
+
+    <a href="{% url 'home' %}">own profile</a>
+</body>
+</html>

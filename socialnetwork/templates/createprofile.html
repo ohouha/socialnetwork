@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>createprofile</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/static/createprofile.css" />
+</head>
+<body>
+    
+    <div class="containter">
+        <div class="leftbox">
+            <h1>Please enter your information</h1>
+            <p>Enter your information,so people can know your more things about you!</p>
+        </div>
+    </div>
+    <div class="sliding">
+        <div class="information">
+            <h1>Information</h1>
+            <form enctype="multipart/form-data" action="{% url 'create_profile' %}" method="post">
+                {% for field in form.visible_fields %}
+                <p>{{field.label_tag}}</p>
+                <label class="username">{{field}}</label>
+                {% for error in field.errors %}
+                <span style="color:red"> {{ error }} </span>
+                {% endfor %}
+                <br>
+                {% endfor %}
+                <input class="slidinglog" type="submit" value="GO">
+                {% for field in form.hidden_fields %}
+                {{field}}
+                {% endfor %}
+                {% csrf_token %}
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

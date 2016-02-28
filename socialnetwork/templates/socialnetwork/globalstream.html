@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+</head>
+<body>
+    {%for error in errors%}
+    <p>{{error}}</p>
+    {% endfor %}
+
+    <h1>message record</h1>
+    {%for item in items%}
+    <p>{{item.message}}</p>
+    <p>{{item.date}}</p>
+    <img src="/static/media/{{item.user.picture}}"/>
+
+    <form action="{% url 'check_other' %}" method="post">
+        <!--to see other people's profile-->
+        <input type="hidden" name="user" value="{{item.username}}" />
+        <input type="hidden" name="currentuser" value="{{user.get_username}}" />
+        <input type="submit" value="{{item.username}}" />
+        {% csrf_token %}
+    </form>
+    {% endfor %}
+
+    <h1>add message ba!</h1>
+    <form action="{% url 'add-message'%}" method="post">
+        <div>Item to add: </div>
+        {% for field in form.visible_fields %}
+        {{field.label_tag}}
+        {{field}}
+        {% for error in field.errors %}
+        <span style="color:red"> {{ error }} </span>
+        {% endfor %}
+        <br>
+        {% endfor %}
+        <input type="submit" value="Submit">
+        {% for field in form.hidden_fields %}
+        {{field}}
+        {% endfor %}
+        {% csrf_token %}
+    </form>
+
+    <p><a href="{% url 'home' %}">own profile</a></p>
+</body>
+</html>
