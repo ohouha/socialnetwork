@@ -31,9 +31,9 @@
     <div class="maincontainer">
 
         <div class="top">
-            {% if proform.picture.value %}
+            {% if pro %}
             {%for item in pro%}
-            <img class="profilepic" src="/static{{item.picture.url}}" />
+            <img class="profilepic" src="{{item.picture}}" />
             {% endfor %}
             {% endif %}
             {%if name%}
@@ -48,7 +48,7 @@
             <div class="message">
                 <div class="face_content">
                     {% if mess.user.picture %}
-                    <img class="face_picture" src="/static{{mess.user.picture.url}}" alt="ownprofile"  />
+                    <img class="face_picture" src="{{mess.user.picture}}" alt="ownprofile"  />
                     {% endif %}
                 </div>
                 <div class="message_content">
@@ -61,7 +61,7 @@
             <div class="commentarea">
                 {% if comment.mypro.picture %}
                 <div class="mypro">
-                    <img class="mypro_picture" src="/static{{comment.mypro.picture.url}}" />
+                    <img class="mypro_picture" src="{{comment.mypro.picture}}" />
                 </div>
                 {% else %}
                 <div class="mypro">
@@ -81,7 +81,7 @@
             <div class="commentarea">
                 {% if item.user.picture %}
                 <div class="mypro">
-                    <img class="mypro_picture" src="/static{{mess.user.picture.url}}" />
+                    <img class="mypro_picture" src="{{mess.user.picture}}" />
                 </div>
                 {% else %}
                 <div class="mypro">

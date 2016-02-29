@@ -14,9 +14,11 @@ class profile(models.Model):
     user = models.ForeignKey(User)
     age=models.CharField(max_length=5) #limit here
     short_bio=models.CharField(max_length=200) #limit here
-    picture=models.ImageField(upload_to="socialnetwork-photo",blank=True)
+    picture=models.CharField(blank=True,max_length=200)
     def __str__(self):    #python 3->need to change
         return self.firstname
+
+
 
 class Item(models.Model):
     message = models.CharField(max_length=200)

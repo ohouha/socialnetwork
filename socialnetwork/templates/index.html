@@ -31,12 +31,12 @@
         <div class="top">
 
             <div class="profilepic">
-                {% if form.picture.value %}
+                {% if pic%}
                 {% for picture in pic %}
-                <img class="profilepic_pic" src="/static{{picture.picture.url}}" alt="ownprofile" style="width:200px" />
+                <img class="profilepic_pic" src="{{picture.picture}}"/>
                 {% endfor %}
-                {% else %}
                 {% endif %}
+                
             </div>
 
                 {% if user.is_authenticated %}
@@ -64,7 +64,7 @@
             <div class="message">
                 {% if item.user.picture %}
                 <div class="face_content">
-                    <img class="face_picture" src="/static{{item.user.picture.url}}" />
+                    <img class="face_picture" src="{{item.user.picture}}" />
                 </div>
                 {% else %}
                 <div class="face_content">
@@ -81,7 +81,7 @@
                 <div class="commentarea">
                     {% if comment.mypro.picture %}
                     <div class="mypro">
-                        <img class="mypro_picture" src="/static{{comment.mypro.picture.url}}" />
+                        <img class="mypro_picture" src="{{comment.mypro.picture}}" />
                     </div>
                     {% else %}
                     <div class="mypro">
@@ -101,7 +101,7 @@
                 <div class="commentarea">
                     {% if item.user.picture %}
                     <div class="mypro">
-                        <img class="mypro_picture" src="/static{{item.user.picture.url}}" />
+                        <img class="mypro_picture" src="{{item.user.picture}}" />
                     </div>
                     {% else %}
                     <div class="mypro">

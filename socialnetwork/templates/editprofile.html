@@ -14,7 +14,7 @@
     <div >
         {% if form.picture.value %}
         {% for picture in pic %}
-        <img class="profilepic" src="/static{{picture.picture.url}}" alt="ownprofile" style="width:200px" />
+        <img class="profilepic" src="{{picture.picture}}" alt="ownprofile" style="width:200px" />
         {% endfor %}
         {%else%}
         <div class="profilepic"></div>

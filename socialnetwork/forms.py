@@ -1,6 +1,7 @@
 from django import forms
 import re
 from django.contrib.auth.models import User
+from django.core.validators import validate_email, RegexValidator
 from socialnetwork.models import *
 
 class RegistrationForm(forms.Form):
@@ -12,6 +13,8 @@ class RegistrationForm(forms.Form):
                                  label='Confirm password',  
                                  widget = forms.PasswordInput())
 
+    email      = forms.CharField(max_length = 40,
+                                 validators = [validate_email])
 
     # Customizes form validation for properties that apply to more
     # than one field.  Overrides the forms.Form.clean function.
@@ -52,8 +55,9 @@ class messageform(forms.ModelForm):
 class profileform(forms.ModelForm):
     class Meta:
         model=profile
-        exclude=('user','username',)
-        widgets={'picture':forms.FileInput()}
+        exclude=('user','username','picture')
+        #widgets={'picture':forms.FileInput()}
+    pic = forms.FileField(required=False)
 
 
 

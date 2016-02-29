@@ -48,12 +48,11 @@
 
         <form action="{% url 'add-message'%}" method="post">
 
-            {% if proform.picture.value %}
+            {% if pro %}
             {%for item in pro%}
-                <img class="profilepic" src="/static{{item.picture.url}}" />
-                <input id="profileurl" type="hidden" value="{{item.picture.url}}" />
+                <img class="profilepic" src="{{item.picture}}" />
+                <input id="profileurl" type="hidden" value="{{item.picture}}" />
             {% endfor %}
-            {% else %}
             {% endif %}
             <input type="submit" class="talk" value="talk">
 
@@ -81,7 +80,7 @@
                         
                         {% if item.user.picture %}
                         <div class="face_content">
-                            <img class="face_picture" src="/static{{item.user.picture.url}}" />
+                            <img class="face_picture" src="{{item.user.picture}}" />
                         </div>
                         {% else %}
                         <div class="face_content">
@@ -109,7 +108,7 @@
                 <div class="commentarea">
                     {% if comment.mypro.picture %}
                     <div class="mypro">
-                        <img class="mypro_picture" src="/static{{comment.mypro.picture.url}}" />
+                        <img class="mypro_picture" src="{{comment.mypro.picture}}" />
                     </div>
                     {% else %}
                     <div class="mypro">
@@ -127,10 +126,10 @@
                 
 
                 <div class="commentarea">
-                    {% if proform.picture.value %}
+                    {% if pro %}
                     {%for item in pro%}
                     <div class="mypro">
-                        <img class="mypro_picture" src="/static{{item.picture.url}}" />
+                        <img class="mypro_picture" src="{{item.picture}}" />
                     </div>
                     {% endfor %}
                     {% else %}

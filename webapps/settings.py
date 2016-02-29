@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+import configparser
+
+import dj_database_url
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -84,6 +88,8 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
 
 
 # Password validation
@@ -135,5 +141,25 @@ STATICFILES_DIRS = (
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
+
+# Configures Django to merely print emails rather than sending them.
+# Comment out this line to enable real email-sending.
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# To enable real email-sending, you should uncomment and 
+# configure the settings below.
+
+config = configparser.ConfigParser()
+config.read("config.ini")
+
+EMAIL_HOST = config.get('Email', 'Host')
+EMAIL_PORT = config.get('Email', 'Port')
+EMAIL_HOST_USER = config.get('Email', 'User')
+EMAIL_HOST_PASSWORD = config.get('Email', 'Password')
+EMAIL_USE_SSL = True
+
+print ("'EMAIL_HOST',EMAIL_HOST+':'+str(EMAIL_PORT)")
+print ("'EMAIL_HOST_USER',EMAIL_HOST_USER")
+
 
 

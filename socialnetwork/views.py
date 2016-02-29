@@ -10,10 +10,19 @@ from django.core import serializers
 from django.http import HttpResponse
 import json
 
+# Used to generate a one-time-use token to verify a user's email address
+from django.contrib.auth.tokens import default_token_generator
+
+# Used to send mail from within Django
+from django.core.mail import send_mail
+
+
 from socialnetwork.models import Item,profile,Person,Comments
 from socialnetwork.forms import RegistrationForm, messageform,profileform
 
 from datetime import datetime
+
+from socialnetwork.s3 import s3_upload
 
 # Create your views here.
 @login_required
@@ -33,7 +42,6 @@ def home(request):
     return render(request, 'index.html', context)
 
 @login_required
-@transaction.atomic
 def add_message(request):
     errors = []
     items = Item.objects.order_by("-date")
@@ -110,6 +118,13 @@ def create_profile(request):
    
     # Save the new record
     form.save()
+    #url
+    profile_to_edit=get_object_or_404(profile,user=request.user)
+    if form.cleaned_data['pic']:
+        url = s3_upload(form.cleaned_data['pic'], profile_to_edit.id)
+        profile_to_edit.picture = url
+        profile_to_edit.save()
+        #form.save()
 
     return redirect(reverse('home'))
 
@@ -136,6 +151,10 @@ def edit_profile(request):
             context={'form':form}
         return render(request,'editprofile.html',context);
 
+    if form.cleaned_data['pic']:
+            url = s3_upload(form.cleaned_data['pic'], profile_to_edit.id)
+            profile_to_edit.picture = url
+    
     form.save()
     return redirect(reverse('home'))
 
@@ -189,7 +208,7 @@ def getposts(request):
     for row in queryset:
         date= row.date.isoformat()
         if(row.user.picture!=""):   
-            url=row.user.picture.url
+            url=row.user.picture
         else:
             url=""
         list.append({'pk':row.pk, 'username': row.username, 'date': date,'message':row.message,'url':url})
@@ -214,7 +233,7 @@ def addcontents(request):
         new_item.save()
         commenttime=new_item.date.isoformat()
         if(new_item.mypro.picture!=""):   
-            url=new_item.mypro.picture.url
+            url=new_item.mypro.picture
         else:
             url=""
         list.append({'comment':comment,'commenttime':commenttime,'url':url})
@@ -243,13 +262,56 @@ def register(request):
 
     # At this point, the form data is valid.  Register and login the user.
     new_user = User.objects.create_user(username=registerform.cleaned_data['username'], 
-                                        password=registerform.cleaned_data['password1'],)
+                                        password=registerform.cleaned_data['password1'],
+                                        email=registerform.cleaned_data['email'])
+    # Mark the user as inactive to prevent login before email confirmation.
+    new_user.is_active = False
     new_user.save()
 
+    # Generate a one-time use token and an email message body
+    token = default_token_generator.make_token(new_user)
 
-    # Logs in the new user and redirects to his/her todo list
-    new_user = authenticate(username=registerform.cleaned_data['username'],
-                            password=registerform.cleaned_data['password1'])
+    email_body = """
+Welcome to the Simple Address Book.  Please click the link below to
+verify your email address and complete the registration of your account:
+
+  http://%s%s
+""" % (request.get_host(), 
+       reverse('confirm', args=(new_user.username,registerform.cleaned_data['password1'],token)))
+
+    send_mail(subject="Verify your email address",
+              message= email_body,
+              from_email="wanyanz@cmu.edu",
+              recipient_list=[new_user.email])
+
+    context['email'] = registerform.cleaned_data['email']
+    return render(request, 'needs-confirmation.html', context)
+    
+@transaction.atomic
+def confirm_registration(request, username, password,token):
+    user = get_object_or_404(User, username=username)
+
+    # Send 404 error if token is invalid
+    if not default_token_generator.check_token(user, token):
+        raise Http404
+
+    # Otherwise token was valid, activate the user.
+    user.is_active = True
+    user.save()
+
+    new_user = authenticate(username=username,
+                            password=password)
     login(request, new_user)
-    context={}
-    return redirect(reverse('create_profile'))
+
+    return redirect(reverse('create_profile'))   
+    
+    
+    
+    
+    #new_user.save()
+    # Logs in the new user and redirects to his/her todo list
+    #new_user = authenticate(username=registerform.cleaned_data['username'],
+                            #password=registerform.cleaned_data['password1'])
+    #login(request, new_user)
+    #context={}
+    #return redirect(reverse('create_profile'))
