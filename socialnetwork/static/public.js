@@ -36,7 +36,7 @@
             else {
                 newItem.innerHTML = "<div class='commentarea'>\
                     <div class='mypro'>\
-                        <img class='mypro_picture' src='/static"+ profileurl + " ' />\
+                        <img class='mypro_picture' src='"+ profileurl + " ' />\
                     </div>\
                     <div class='message_content'>\
                         <div class='commentusername'>" + name + "</div>\

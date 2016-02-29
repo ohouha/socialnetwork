@@ -92,7 +92,7 @@ function handleResponse() {
 </form>\
 <div class='commentarea'>\
 <div class='mypro'>\
- <img class='mypro_picture' src='/static"+ profileurl + "'>\
+ <img class='mypro_picture' src='"+ profileurl + "'>\
 </div>\
 <form action='/socialnetwork/add-contents' method='post' id='commentform'>\
 <input type='button' class='button' name='submitButton' value='send' />\
@@ -109,7 +109,7 @@ function handleResponse() {
                     newItem.innerHTML = "<form action='/socialnetwork/check-profile' method='post'> \
 <div class='message'>\
 <div class='face_content'>\
-<img class='face_picture' src='/static"+ url + " '>\
+<img class='face_picture' src='"+ url + " '>\
 </div>\
 <div class='message_content' >\
 <input type='hidden' name='user' value='"+ itemusername + "' />\
@@ -138,7 +138,7 @@ function handleResponse() {
                    "<form action='/socialnetwork/check-profile' method='post'> \
 <div class='message'>\
 <div class='face_content'>\
-<img class='face_picture' src='/static"+ url + " '>\
+<img class='face_picture' src='"+ url + " '>\
 </div>\
 <div class='message_content' >\
 <input type='hidden' name='user' value='"+ itemusername + "' />\
@@ -152,7 +152,7 @@ function handleResponse() {
 </form>\
 <div class='commentarea'>\
 <div class='mypro'>\
- <img class='mypro_picture' src='/static"+ profileurl + "'>\
+ <img class='mypro_picture' src='"+ profileurl + "'>\
 </div>\
 <form action='/socialnetwork/add-contents' method='post' id='commentform'>\
 <input type='button' class='button' name='submitButton' value='send' />\
